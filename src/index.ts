@@ -1,4 +1,6 @@
-const main = ()=>{
-  console.log("111")
-}
-export default main
+import { getPage } from './spider';
+
+const main = async () => {
+  getPage();
+};
+export default main;

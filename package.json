@@ -2,19 +2,20 @@
   "name": "douban-movie-datas",
   "version": "1.0.0",
   "description": "",
-  "main": "index.js",
+  "main": "index.ts",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
-    "dev": "bun ./index"
+    "dev": "bun ts-node ."
   },
   "keywords": [],
-  "author": "",
+  "author": "JacobZha",
   "license": "ISC",
   "devDependencies": {
     "@antfu/eslint-config": "1.0.0-beta.13",
     "eslint": "^8.50.0"
   },
   "dependencies": {
-    "typescript": "^5.2.2"
+    "ts-node": "^10.9.1",
+    "typescript": "^5.2.2",
+    "x-crawl": "^8.2.0"
   }
 }
