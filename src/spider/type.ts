@@ -1,4 +1,5 @@
 export type DataListType = {
+  orderId: number;
   movieName: string;
   rateValue: number;
   ratePersonCount: number;
