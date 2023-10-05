@@ -4,7 +4,9 @@
   "description": "",
   "main": "index.ts",
   "scripts": {
-    "dev": "bun ts-node ."
+    "dev": "npx ts-node .",
+    "dev:bun": "bun ts-node .",
+    "tsnode": "ts-node ."
   },
   "keywords": [],
   "author": "JacobZha",
@@ -14,6 +16,7 @@
     "eslint": "^8.50.0"
   },
   "dependencies": {
+    "cheerio": "^1.0.0-rc.12",
     "ts-node": "^10.9.1",
     "typescript": "^5.2.2",
     "x-crawl": "^8.2.0"
