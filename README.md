@@ -8,7 +8,9 @@
 
 1. x-crawl: https://github.com/coder-hxl/x-crawl.git 用于获取豆瓣对应的页面的html
 2. cheerio：用于解析html，获取对应的数据
-3. 数据来源：https://www.douban.com/doulist/1641439/?start=0
+3. 数据来源：
+   1. **src/spider:** 豆瓣list-1：https://www.douban.com/doulist/1641439/?start=0
+   2. **src/spider-red-box-office:** red-box-office：http://www.boxofficecn.com/the-red-box-office
 
 ## 使用方式
 
@@ -45,3 +47,9 @@ npm run dev
 5. 已知问题：
 
    目前使用x-crawl加上随机UserAgent已经可以初步绕过豆瓣的403反爬了，但是在代码里没有加上错误重试、信息log以及403相关的处理。如果遇到输出数据为空等情况，可以打印拿到的html看看是不是返回403页面了。
+
+## 更新日志
+
+### 2024-2-15
+1. 更新red-box-office上的中国电影票房数据
+2. 修复eslint故障
