@@ -1,8 +1,8 @@
-import { Spider } from './spider';
+import { Spider } from './spider'
 
-const main = async () => {
-  const spider = new Spider(1, 22);
-  await spider.startCrawlPage();
-  console.log('finish');
-};
-export default main;
+async function main() {
+  const spider = new Spider(1, 22)
+  await spider.startCrawlPage()
+  console.log('finish')
+}
+export default main

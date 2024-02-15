@@ -62,16 +62,16 @@ export const staticHeaderList = [
   'NOKIA5700/ UCWEB7.0.2.37/28/999',
   'Openwave/ UCWEB7.0.2.37/28/999',
   'Openwave/ UCWEB7.0.2.37/28/999',
-];
+]
 
-const getRandomIntInclusive = (min: number, max: number) => {
-  min = Math.ceil(min);
-  max = Math.floor(max);
-  return Math.floor(Math.random() * (max - min + 1)) + min;
-};
+function getRandomIntInclusive(min: number, max: number) {
+  min = Math.ceil(min)
+  max = Math.floor(max)
+  return Math.floor(Math.random() * (max - min + 1)) + min
+}
 
-export const getRandomHeader = () => {
-  const max = staticHeaderList.length - 1;
-  const idx = getRandomIntInclusive(0, max);
-  return staticHeaderList[idx];
-};
+export function getRandomHeader() {
+  const max = staticHeaderList.length - 1
+  const idx = getRandomIntInclusive(0, max)
+  return staticHeaderList[idx]
+}
