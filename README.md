@@ -53,3 +53,10 @@ npm run dev
 ### 2024-2-15
 1. 更新red-box-office上的中国电影票房数据
 2. 修复eslint故障
+
+### 2024-2-16
+1. 抽离公共豆瓣List爬虫方案，支持传入doubanList编号，爬取list内对应内容
+2. 增加spiderCHNMovies方法，用于爬取中国电影榜单
+3. CHNMovie方法中，继承原spider方法，增加电影详情页面评分占比、短评数量功能
+   1. 二开可基于此思路对短评内容(comments)、影评内容进行爬取(review)
+4. 更新douList票房数据获取方案，使其适用范围更广
