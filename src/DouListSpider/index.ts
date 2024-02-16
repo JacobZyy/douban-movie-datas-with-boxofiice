@@ -25,11 +25,13 @@ class DouListSpider {
   private endPage: number
   private dataList: DataListType[]
   protected douListCode: number
+  protected urlList: string[]
   constructor(startPage: number, endPage: number, douListCode: number) {
     this.startPage = startPage
     this.endPage = endPage
     this.dataList = []
     this.douListCode = douListCode
+    this.urlList = []
   }
 
   public getDataList() {
@@ -93,8 +95,8 @@ class DouListSpider {
   private getMovieNames = (element: Cheerio<any>) => {
     const target = element.find('.title a')
     const { href = '' } = target.attr() ?? {}
-    // if (href)
-    //   this.movieDetailUrlsList.push(href)
+    if (href)
+      this.urlList.push(href)
     const movieCode = Number(/\d+/.exec(href)?.[0] || '0')
     return {
       movieName: target.text().trim(),
@@ -107,6 +109,7 @@ class DouListSpider {
     const pageList = currentPageList.map((text) => {
       return `https://www.douban.com/doulist/${this.douListCode}/?start=${(text - 1) * 25}&sort=seq&playable=0&sub_type=`
     })
+
     const htmlList: string[] = await this.crawlHTMLInfos(pageList)
     htmlList.forEach((html, pageIdx) => {
       const curPage = pageList[0] + pageIdx
@@ -118,7 +121,7 @@ class DouListSpider {
         console.log(`page: ${curPage} get failed`)
 
       dataItems.each((idx, element) => {
-        const orderId = $(element).find('.mod .hd .pos').text().trim()
+        const orderId = $(element).find('.mod .hd .pos').text().trim() ?? idx + 1
         const movieSubject = $(element).find('.doulist-subject')
 
         const { movieCode, movieName } = this.getMovieNames(movieSubject)
@@ -143,11 +146,7 @@ class DouListSpider {
 
   public writeData = (fileName: string = '') => {
     // 将数据转换为 CSV 格式的字符串
-    const csvData = this.dataList
-      .sort((prev, cur) => prev.orderId - cur.orderId)
-      .map((item) => {
-        return `${item.orderId},${item.movieCode},${item.movieName},${item.rateValue},${item.ratePersonCount},"${item.description}",${item.boxOffice}`
-      })
+    const csvData = this.dataList.map(item => `${item.orderId},${item.movieCode},${item.movieName},${item.rateValue},${item.ratePersonCount},"${item.description}",${item.boxOffice}`)
 
     // 将 CSV 数据连接成一个字符串
     const csvString = `orderId,shouldCurId,movieName,rateValue(x/10),ratePersonCount(评价人数),description,boxOffice(票房，万美元)\n${csvData.join(
