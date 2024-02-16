@@ -1,16 +1,17 @@
-# 豆瓣电影评分及其票房数据爬虫
+# 豆瓣List数据爬虫（以国内外电影票房榜单为主）
 
 ## 背景
 
-女朋友是学统计的。毕业课题是这个方面的内容，查看了一下github上相关的爬虫项目，要么就是只带评分影评的，要么就是带了评分票房但是项目老到python3.6的。再加上本人python学艺不精，所以选择用ts+node重选一遍
+女朋友是学统计的。毕业课题是这个方面的内容，查看了一下github上相关的爬虫项目，要么就是只带评分影评的，要么就是带了评分票房但是项目老到python3.6的。再加上本人python学艺不精，所以选择用ts+node重写一遍
 
 ## 相关库的选择：
 
 1. x-crawl: https://github.com/coder-hxl/x-crawl.git 用于获取豆瓣对应的页面的html
 2. cheerio：用于解析html，获取对应的数据
 3. 数据来源：
-   1. **src/spider:** 豆瓣list-1：https://www.douban.com/doulist/1641439/?start=0
-   2. **src/spider-red-box-office:** red-box-office：http://www.boxofficecn.com/the-red-box-office
+   1. **世界电影榜单:** https://www.douban.com/doulist/1641439
+   2. **国内电影榜单:** https://www.douban.com/doulist/110233943
+   3. **redBoxOffice票房数据榜单:** http://www.boxofficecn.com/the-red-box-office
 
 ## 使用方式
 
