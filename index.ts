@@ -4,8 +4,8 @@ import spiderWorldMovieList from './src/spider-world-movies'
 
 async function main() {
   await spiderWorldMovieList()
-  // await redBoxOfficeMain()
-  // await mainCHNList()
+  await redBoxOfficeMain()
+  await mainCHNList()
 }
 
 main()
