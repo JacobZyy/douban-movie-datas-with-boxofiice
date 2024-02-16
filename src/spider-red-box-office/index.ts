@@ -4,7 +4,7 @@ import { writeFileSync } from 'node:fs'
 import { load } from 'cheerio'
 import xCrawl from 'x-crawl'
 import dayjs from 'dayjs'
-import { getRandomHeader } from '../spider/utils'
+import { getRandomHeader } from '../utils'
 
 async function getBoxOfficeData() {
   const instance = xCrawl()
@@ -22,12 +22,12 @@ async function getBoxOfficeData() {
   if (!data)
     throw new Error('no data')
 
-  const outputData = JSON.stringify({
-    expireTime: dayjs().add(1, 'day'),
-    pageData: data,
-  })
+  // const outputData = JSON.stringify({
+  //   expireTime: dayjs().add(1, 'day'),
+  //   pageData: data,
+  // })
 
-  writeFileSync('./src/spider-red-box-office/pageDataInfos.json', outputData, 'utf-8')
+  // // writeFileSync('./src/spider-red-box-office/pageDataInfos.json', outputData, 'utf-8')
   return data
 }
 
@@ -63,12 +63,11 @@ export async function main() {
     const boxOfficeData = /\d+/.exec(boxOffice)!
     if (!year.includes('🇨🇳'))
       return ''
-    return `${idx + 1},${year},${name},${director},${boxOfficeData[0]}`
+    return `${idx + 1},${year.slice(0, 4)},${name},${director},${boxOfficeData[0]}`
   }).filter(item => !!item).join('\n')
 
   const csvString = `orderId,上映时间,影片名,导演,票房（万元）\n${csvData}\n`
   const csvStringCHN = `orderId,上映时间,影片名,导演,票房（万元）\n${csvDataCHN}\n`
-  console.log('finish')
-  writeFileSync('red-box-office-data.csv', csvString, 'utf-8')
-  writeFileSync('red-box-office-data-china-only.csv', csvStringCHN, 'utf-8')
+  writeFileSync('./data/red-box-office-data.csv', csvString, 'utf-8')
+  writeFileSync('./data/red-box-office-data-china-only.csv', csvStringCHN, 'utf-8')
 }
