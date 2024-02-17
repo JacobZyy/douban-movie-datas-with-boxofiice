@@ -18,6 +18,8 @@ export interface DataListType {
   rating2?: number
   rating1?: number
   shortCommentsCount?: number
+  /** 第一条短评的支持数量 */
+  maxCommentSupport?: number
 }
 
 class DouListSpider {

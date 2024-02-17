@@ -17,6 +17,16 @@ class DouListDetailSpider extends DouListSpider {
     return this.crawlHTMLInfos(pageList)
   }
 
+  private async crawlMovieComments(limit: number = 1) {
+    const dataList = this.getDataList()
+    const pageList = dataList.map(({ movieCode }) => {
+      return `https://movie.douban.com/subject/${movieCode}/comments?limit=${limit}&status=P&sort=new_score`
+    })
+
+    // const subPageList = ['https://movie.douban.com/subject/25845392/']
+    return this.crawlHTMLInfos(pageList)
+  }
+
   private getRatingInfos(html: string) {
     const $ = load(html)
     const target = $('#interest_sectl')
@@ -81,16 +91,46 @@ class DouListDetailSpider extends DouListSpider {
     this.setDataList(finalList)
   }
 
+  private getCommentsSupports(html: string) {
+    const $ = load(html)
+    const target = $('.comment-vote .vote-count').text()
+    return Number(/\d+/.exec(target)?.[0] ?? '0')
+  }
+
+  public async analysisMovieComments() {
+    const dataList = this.getDataList()
+    const htmlList = await this.crawlMovieComments()
+    const maxCommentInfos: Record<number | string, number> = {}
+    htmlList.forEach((pageHtml, index) => {
+      const url = this.urlList[index]
+      const curMovieCode = Number(/\d+/.exec(url)?.[0])
+      if (!Number.isNaN(curMovieCode))
+        maxCommentInfos[curMovieCode] = this.getCommentsSupports(pageHtml)
+    })
+
+    const finalList = dataList.map((item) => {
+      const { movieCode } = item
+      const maxCommentSupport = maxCommentInfos[movieCode]
+      if (!maxCommentSupport && maxCommentSupport !== 0)
+        return item
+      return {
+        ...item,
+        maxCommentSupport,
+      }
+    })
+    this.setDataList(finalList)
+  }
+
   public writeData = (fileName: string = '') => {
     const dataList = this.getDataList()
     // 将数据转换为 CSV 格式的字符串
     const csvData = dataList
       .map((item) => {
-        return `${item.orderId},${item.movieCode},${item.movieName},${item.rateValue},${item.ratePersonCount},${item.shortCommentsCount}, ${item.rating5}, ${item.rating4}, ${item.rating3}, ${item.rating2}, ${item.rating1},"${item.description}","${item.boxOffice}"`
+        return `${item.orderId},${item.movieCode},${item.movieName},${item.rateValue},${item.ratePersonCount},${item.shortCommentsCount}, ${item.rating5}, ${item.rating4}, ${item.rating3}, ${item.rating2}, ${item.rating1},${item.maxCommentSupport},"${item.description}","${item.boxOffice}"`
       })
 
     // 将 CSV 数据连接成一个字符串
-    const csvString = `orderId,movieCode,movieName,rateValue(x/10),评价人数,短评数量,5星占比,4星占比,3星占比,2星占比,1星占比,description,额外信息\n${csvData.join(
+    const csvString = `orderId,movieCode,movieName,rateValue(x/10),评价人数,短评数量,5星占比,4星占比,3星占比,2星占比,1星占比,最热短评的支持人数,description,额外信息\n${csvData.join(
       '\n',
     )}`
 
