@@ -19,7 +19,6 @@
   },
   "devDependencies": {
     "@antfu/eslint-config": "^2.6.4",
-    "dayjs": "^1.11.10",
     "eslint": "^8.56.0"
   }
 }
